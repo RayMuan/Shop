@@ -1,8 +1,37 @@
-body {
+a {
+  color: #00B7FF;
+}
+
+body{
   padding: 50px;
+  width: 30rem;
+  margin-left: auto;
+  margin-right: auto;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.container{
+  border: solid 1px black;
+  padding: 1rem;
+}
+
+.prodItem{
+  padding: 0.3rem;
+  border-bottom: solid 1px black;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.prodName{
+  float: left;
+  width: 35%;
+  text-align: center;
+}
+
+.prodCount{
+  width: 30%;
+}
+
+.payBtn{
+  width: 20%;
 }
