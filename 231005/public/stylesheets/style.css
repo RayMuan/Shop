@@ -1,13 +1,17 @@
-a {
-  color: #00B7FF;
-}
-
 body{
   padding: 50px;
   width: 30rem;
   margin-left: auto;
   margin-right: auto;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.total{
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
 }
 
 .container{
@@ -20,16 +24,22 @@ body{
   border-bottom: solid 1px black;
   margin-left: 1rem;
   margin-right: 1rem;
+  display: flex;
 }
 
 .prodName{
-  float: left;
   width: 35%;
   text-align: center;
 }
 
-.prodCount{
+.prodPrice{
   width: 30%;
+  text-align: center;
+}
+
+.ordNum{
+  width: 30%;
+  text-align: center;
 }
 
 .btn{

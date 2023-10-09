@@ -1,6 +1,8 @@
 const clientKey = "test_ck_GePWvyJnrKb4goMDkLOVgLzN97Eo"
 const customerKey = "SSkQ6b3SHujqEL2kuXIPP" // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
 const button = document.getElementById("payment-button")
+var total = parseInt(document.getElementById("total").value)
+var ordCode = document.getElementById("ordCode").value
 // ------  결제위젯 초기화 ------ 
 // 비회원 결제에는 customerKey 대신 ANONYMOUS를 사용하세요.
 // const paymentWidget = PaymentWidget(clientKey, customerKey) // 회원 결제
@@ -10,8 +12,8 @@ const paymentWidget = PaymentWidget(clientKey, PaymentWidget.ANONYMOUS) // 비�
 // DOM이 생성된 이후에 렌더링 메서드를 호출하세요.
 // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
 paymentWidget.renderPaymentMethods(
-  "#payment-method", 
-  { value: 1 },
+  "#payment-method",
+  { value: total },
   { variantKey: "DEFAULT" } // 렌더링하고 싶은 결제 UI의 variantKey
 )
 // ------  이용약관 렌더링 ------
@@ -23,10 +25,10 @@ paymentWidget.renderAgreement('#agreement')
 // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
 button.addEventListener("click", function () {
   paymentWidget.requestPayment({
-    orderId: "8JtaEJ_iwq4sAxE1Z1FIk",            // 주문 ID(직접 만들어주세요)
-    orderName: "토스 티셔츠 외 2건",                 // 주문명
-    successUrl: "https://my-store.com/success",  // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
-    failUrl: "https://my-store.com/fail",        // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
+    orderId: ordCode ,          // 주문 ID(직접 만들어주세요)
+    orderName: "토스 티셔츠 외 2건",                // 주문명
+    successUrl: "http://localhost:3000/payment/success",  // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
+    failUrl: "http://localhost:3000/payment/fail",        // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
     customerEmail: "customer123@gmail.com",
     customerName: "김토스"
   })

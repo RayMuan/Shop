@@ -7,6 +7,8 @@ router.get('/', controller.main);
 
 router.get('/product/:prodID', controller.product);
 
-router.post('/payment/:prodID', controller.payment);
+router.get('/cart', controller.cart);
+
+router.post('/payment/:ordCode', controller.payment);
 
 module.exports = router;
