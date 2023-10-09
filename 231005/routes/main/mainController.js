@@ -25,8 +25,8 @@ exports.main = function(req, res) {
 //상품 상세
 exports.product = function(req, res){
     var prodID = path.parse(req.params.prodID).base;
-    var ordCode= req.cookies.userCookie.ordCode;
-    
+    var ordCode;
+
     conn.query(`SELECT * FROM product WHERE prodID=?`, [prodID], function(err, result){
         console.log(result);
         var title = "Product";
