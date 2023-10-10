@@ -1,6 +1,7 @@
 const clientKey = "test_ck_GePWvyJnrKb4goMDkLOVgLzN97Eo"
 const customerKey = "SSkQ6b3SHujqEL2kuXIPP" // 내 상점에서 고객을 구분하기 위해 발급한 고객의 고유 ID
 const button = document.getElementById("payment-button")
+
 var total = parseInt(document.getElementById("total").value)
 var ordCode = document.getElementById("ordCode").value
 // ------  결제위젯 초기화 ------ 
@@ -27,9 +28,9 @@ button.addEventListener("click", function () {
   paymentWidget.requestPayment({
     orderId: ordCode ,          // 주문 ID(직접 만들어주세요)
     orderName: "토스 티셔츠 외 2건",                // 주문명
-    successUrl: "http://localhost:3000/payment/success",  // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
-    failUrl: "http://localhost:3000/payment/fail",        // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
-    customerEmail: "customer123@gmail.com",
-    customerName: "김토스"
+    successUrl: "http://localhost:3000/payResult/success",  // 결제에 성공하면 이동하는 페이지(직접 만들어주세요)
+    failUrl: "http://localhost:3000/payResult/fail",        // 결제에 실패하면 이동하는 페이지(직접 만들어주세요)
+    // customerEmail: "customer123@gmail.com",
+    // customerName: "김토스"
   })
 })

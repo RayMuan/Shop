@@ -7,7 +7,11 @@ router.get('/', controller.main);
 
 router.get('/product/:prodID', controller.product);
 
-router.get('/cart', controller.cart);
+router.get('/cart/:ordCode', controller.cart);
+
+router.post('/cartIn', controller.cartIn);
+
+router.get('/payResult/:result', controller.payResult);
 
 router.post('/payment/:ordCode', controller.payment);
 

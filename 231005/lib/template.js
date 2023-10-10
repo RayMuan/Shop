@@ -7,13 +7,16 @@ module.exports = {
             <meta charset="utf-8">
             <title>${title}</title>
             <link rel="stylesheet" href="../stylesheets/style.css">
-            <script src="../javascripts/javascripts.js"></script>
+            <script src="../javascripts/javascript.js"></script>
             <script src="https://js.tosspayments.com/v1/payment-widget"></script>
         </head>
         <body>
             <div id="wrap">
             <h1>${title}</h1>
-            <div><button><a href="/cart">장바구니</a></button></div>
+            <div>
+                <button class="Btn" type="button" onclick="moveHome()">홈</button>
+                <button class="Btn" type="button" onclick="moveCart()">장바구니</button>
+            </div>
             ${body}
             </div>
             <script src="../javascripts/tossJS.js"></script>
@@ -38,18 +41,21 @@ module.exports = {
         prodItem = prodItem + '</div>';
         return prodItem;
     }, product: function(result, ordCode){
+        var total=`${result[0].prodPrice}`;
         return `<div class="container">
             <h2>${result[0].prodName}</h2>
-            <form action="/payment/${ordCode}" method="post">
+            <form id="ordForm">
+                <input name="prodID" type="hidden" value="${result[0].prodID}"/>
                 <div>가격 : <input name="prodPrice" value="${result[0].prodPrice}" readonly/></div>
                 <div>수량 : <input name="ordNum" type="number"/></div>
+                <div><h2 id="total">결제 금액 : <input type="number" name="total" value="${total}"/></h2></div>
                 <div>
-                    <button class="btn" type="button"><a href="/cartIn">장바구니 담기<a></button>
-                    <button class="btn" id="ordBtn" type="submit">주문하기</a></button>
+                    <button class="btn" id="cartInBtn" type="button" onclick="cartIn()" >장바구니 담기</button>
+                    <button class="btn" id="payBtn" type="button" onclick="movePayment()">주문하기</a></button>
                 </div>
             </form>
         </div>`;
-    }, cart : function(result, cookieProd){
+    }, cart : function(result, prodCookie){
         var prodItem = '<div class="container"><div class="prodItem"><div class="prodName">상품명</div><div class="prodPrice">가격</div><div class="ordNum">수량</div></div>';
         var total=0;
         for(var i=0; i < result.length; i++){
@@ -64,26 +70,30 @@ module.exports = {
                     ${result[i].prodPrice}
                 </div>
                 <div class="ordNum">
-                    ${cookieProd[i][1]}
+                    ${prodCookie[i].ordNum}
                 </div>
             </div>
             `;
-            total=total+result[i].prodPrice*cookieProd[i][1];
+            total=total+result[i].prodPrice*prodCookie[i].ordNum;
         }
         prodItem = prodItem + 
-        `<h2 id="total">결제 금액 : ${total}</h2>
+        `<form id="ordForm">
+            <h2>결제 금액 : <input type="number" name="total" value="${total}"/></h2>
             <div>
-                <button class="btn" id="ordBtn" type="submit">주문하기</a></button>
+                <button class="btn" id="payBtn" onclick="movePayment()">주문하기</a></button>
             </div>
+        </form>
         </div>`;
         return prodItem;
-    }, payment: function( total, ordCode){
+    }, payment: function(total, ordCode){
         return `
         <h1>Payment Page</h1>
         <div class="container">
             <div>
-                결제 금액 : <input id="total" type="number" value="${total}">
-                <input id="ordCode" type="hidden" value="${ordCode}">
+                주문 코드 : <input id="ordCode" name="ordCode" value="${ordCode}">
+            </div>
+            <div>
+                결제 금액 : <input id="total" name="total" type="number" value="${total}">
             </div>
             <div id="payment-method"></div>
             <div id="agreement"></div>
