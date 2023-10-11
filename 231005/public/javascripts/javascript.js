@@ -19,6 +19,13 @@ function moveCart(){
     location.href=`/cart/${ordCode}`;
 }
 
+function cartOut(){
+    var delNum=document.getElementById('cartOut').value;
+    console.log(delNum);
+
+    location.href=`/cartOut/${delNum}`;
+}
+
 //장바구니 담기
 function cartIn(){
     var ordForm = document.getElementById('ordForm');
@@ -26,4 +33,13 @@ function cartIn(){
     ordForm.setAttribute('action', `/cartIn`);
 
     ordForm.submit();
+}
+
+function totalSum(){
+    var ordNum=document.getElementById('ordNum').value;
+    var prodPrice = document.getElementById('prodPrice').value;
+    
+    var total = document.getElementById('total');
+    total.setAttribute('value', `${ordNum * prodPrice}`);
+    
 }

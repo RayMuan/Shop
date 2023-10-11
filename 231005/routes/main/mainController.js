@@ -3,6 +3,7 @@ var conn = require('../../lib/database');
 var url = require('url');
 var path = require('path');
 const { v4: uuidv4 } = require('uuid');
+const { json } = require('body-parser');
 
 //메인 겸 상품리스트
 exports.main = function(req, res) {
@@ -42,21 +43,16 @@ exports.cart = function(req, res){
     // 비회원 쿠키 장바구니
     var title = "Cart Page";
     var prodCookie = req.cookies.prodCookie;
+
     console.log(prodCookie);
-    if(prodCookie != ""){
-        var sql = `SELECT * FROM PRODUCT WHERE prodID='${prodCookie[0].prodID}'`;
-        for(var i=1; i<prodCookie.length; i++){
-            sql= sql+` or prodID='${prodCookie[i].prodID}'`;
-        }
-        conn.query(sql, function(err, result){
-            // 장바구니 출력
-            var cart = template.cart(result, prodCookie);
-            var html = template.HTML(title, cart);
-            console.log(prodCookie[0].prodID);
-            
-            res.send(html);
-        })
-    }else{
+    console.log(prodCookie.length);
+    try{
+        // 장바구니 출력
+        var cart = template.cart(prodCookie);
+        var html = template.HTML(title, cart);
+        res.send(html);
+
+    }catch{
         result=null;
         var cart = template.cart(result, prodCookie);
         var html = template.HTML(title, cart);
@@ -65,15 +61,35 @@ exports.cart = function(req, res){
     }
 }
 
+exports.cartOut = function(req, res){
+    var prodCookie = req.cookies.prodCookie;
+    var delNum = path.parse(req.params.delNum).base;
+    console.log(delNum);
+    prodCookie.splice(delNum, 1);
+    console.log(prodCookie);
+    res.send(`<script type="text/javascript">window.history.back();</script>`);
+}
+
 // 장바구니 담기
 exports.cartIn = function(req, res){
     var prodID = req.body.prodID;
+    var prodName = req.body.prodName;
+    var prodPrice = req.body.prodPrice;
     var ordNum = req.body.ordNum;
     var prodCookie = req.cookies.prodCookie;
-    console.log(prodCookie);
     
-    res.cookie('prodCookie', [{prodID:prodID, ordNum:ordNum}] ,{maxAge: 60*60*24*30});
-    
+    if(prodCookie == null){
+        res.cookie(`prodCookie`, [{prodID:prodID, prodName:prodName, prodPrice:prodPrice ,ordNum:ordNum}] ,{maxAge: 60*60*24*30});
+    }else{
+        let arr=[];
+        for(var i=0; i<prodCookie.length; i++){
+            arr[i]=(prodCookie[i]);
+
+            console.log('쿠키 값 :'+(arr));
+        }
+        arr [prodCookie.length] = {prodID:prodID, prodName:prodName, prodPrice:prodPrice,ordNum:ordNum};
+        res.cookie(`prodCookie`, arr ,{maxAge: 60*60*24*30});
+    }
     res.send(`<script type="text/javascript">alert("장바구니에 추가되었습니다."); window.location="/"; </script>`);
 }
 

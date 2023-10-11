@@ -43,38 +43,42 @@ module.exports = {
     }, product: function(result, ordCode){
         var total=`${result[0].prodPrice}`;
         return `<div class="container">
-            <h2>${result[0].prodName}</h2>
-            <form id="ordForm">
+        <form id="ordForm">
                 <input name="prodID" type="hidden" value="${result[0].prodID}"/>
-                <div>가격 : <input name="prodPrice" value="${result[0].prodPrice}" readonly/></div>
-                <div>수량 : <input name="ordNum" type="number"/></div>
-                <div><h2 id="total">결제 금액 : <input type="number" name="total" value="${total}"/></h2></div>
+                <div>상품이름 : <input name="prodName" value=" ${result[0].prodName}" readonly/></div>
+                <div>가격 : <input name="prodPrice" id="prodPrice" value="${result[0].prodPrice}" readonly/></div>
+                <div>수량 : <input name="ordNum" id="ordNum" onchange="totalSum()" type="number"/></div>
+                <div><h2>결제 금액 : <input type="number" id="total" name="total" value=""/></h2></div>
                 <div>
                     <button class="btn" id="cartInBtn" type="button" onclick="cartIn()" >장바구니 담기</button>
                     <button class="btn" id="payBtn" type="button" onclick="movePayment()">주문하기</a></button>
                 </div>
             </form>
         </div>`;
-    }, cart : function(result, prodCookie){
+    }, cart : function(prodCookie){
         var prodItem = '<div class="container"><div class="prodItem"><div class="prodName">상품명</div><div class="prodPrice">가격</div><div class="ordNum">수량</div></div>';
         var total=0;
-        for(var i=0; i < result.length; i++){
+        for(var i=0; i < prodCookie.length; i++){
             prodItem =  prodItem + `
             <div class="prodItem">
-                <div class="prodName">
-                    <a href="/product/${result[i].prodID}">
-                    ${result[i].prodName}
-                    </a>
-                </div>
-                <div class="prodPrice">
-                    ${result[i].prodPrice}
-                </div>
-                <div class="ordNum">
-                    ${prodCookie[i].ordNum}
-                </div>
+            <div class="prodName">
+            <a href="/product/${prodCookie[i].prodID}">
+            ${prodCookie[i].prodName}
+            </a>
+            </div>
+            <div class="prodPrice">
+            ${prodCookie[i].prodPrice}
+            </div>
+            <div class="ordNum">
+            ${prodCookie[i].ordNum}
+            </div>
+            <div class="cartOut">
+                <input type="hidden" value=${i} id="cartOut">
+                <button type="button" onclick="cartOut()">삭제</button>
+            </div>
             </div>
             `;
-            total=total+result[i].prodPrice*prodCookie[i].ordNum;
+            total=total+prodCookie[i].prodPrice*prodCookie[i].ordNum;
         }
         prodItem = prodItem + 
         `<form id="ordForm">
