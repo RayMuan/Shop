@@ -40,34 +40,42 @@ exports.product = function(req, res){
 
 // 장바구니 페이지
 exports.cart = function(req, res){
-    // 비회원 쿠키 장바구니
-    var title = "Cart Page";
-    var prodCookie = req.cookies.prodCookie;
-
-    console.log(prodCookie);
-    console.log(prodCookie.length);
     try{
-        // 장바구니 출력
-        var cart = template.cart(prodCookie);
-        var html = template.HTML(title, cart);
-        res.send(html);
+        // 비회원 쿠키 장바구니
+        var title = "Cart Page";
+        var prodCookie = req.cookies.prodCookie;
+    
+        console.log(prodCookie);
+        console.log(prodCookie.length);
+        try{
+            // 장바구니 출력
+            var cart = template.cart(prodCookie);
+            var html = template.HTML(title, cart);
+            res.send(html);
+    
+        }catch{
+            result=null;
+            var cart = template.cart(result, prodCookie);
+            var html = template.HTML(title, cart);
+    
+            res.send(html);
+        }
 
     }catch{
-        result=null;
-        var cart = template.cart(result, prodCookie);
-        var html = template.HTML(title, cart);
-
+        var html = template.HTML(title, `<div>장바구니가 비어있습니다.</div>`);
+    
         res.send(html);
     }
 }
 
+// 장바구니 삭제
 exports.cartOut = function(req, res){
     var prodCookie = req.cookies.prodCookie;
-    var delNum = path.parse(req.params.delNum).base;
-    console.log(delNum);
-    prodCookie.splice(delNum, 1);
+    var ordCode = req.cookies.userCookie.ordCode;
     console.log(prodCookie);
-    res.send(`<script type="text/javascript">window.history.back();</script>`);
+    res.clearCookie('prodCookie');
+    console.log(prodCookie);
+    res.send(`<script type="text/javascript">location.href='/cart/${ordCode}';</script>`);
 }
 
 // 장바구니 담기

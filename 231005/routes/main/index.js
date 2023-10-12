@@ -9,7 +9,7 @@ router.get('/product/:prodID', controller.product);
 
 router.get('/cart/:ordCode', controller.cart);
 
-router.get('/cartOut/:delNum', controller.cartOut);
+router.get('/cartOut', controller.cartOut);
 
 router.post('/cartIn', controller.cartIn);
 

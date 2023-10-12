@@ -40,8 +40,7 @@ module.exports = {
         }
         prodItem = prodItem + '</div>';
         return prodItem;
-    }, product: function(result, ordCode){
-        var total=`${result[0].prodPrice}`;
+    }, product: function(result){
         return `<div class="container">
         <form id="ordForm">
                 <input name="prodID" type="hidden" value="${result[0].prodID}"/>
@@ -72,10 +71,6 @@ module.exports = {
             <div class="ordNum">
             ${prodCookie[i].ordNum}
             </div>
-            <div class="cartOut">
-                <input type="hidden" value=${i} id="cartOut">
-                <button type="button" onclick="cartOut()">삭제</button>
-            </div>
             </div>
             `;
             total=total+prodCookie[i].prodPrice*prodCookie[i].ordNum;
@@ -84,7 +79,8 @@ module.exports = {
         `<form id="ordForm">
             <h2>결제 금액 : <input type="number" name="total" value="${total}"/></h2>
             <div>
-                <button class="btn" id="payBtn" onclick="movePayment()">주문하기</a></button>
+                <button class="btn" id="payBtn" type="button" onclick="movePayment()">주문하기</button>
+                <button class="btn" type="button" onclick="cartOut()">삭제하기</button>
             </div>
         </form>
         </div>`;

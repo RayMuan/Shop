@@ -20,10 +20,7 @@ function moveCart(){
 }
 
 function cartOut(){
-    var delNum=document.getElementById('cartOut').value;
-    console.log(delNum);
-
-    location.href=`/cartOut/${delNum}`;
+    location.href=`/cartOut`;
 }
 
 //장바구니 담기
