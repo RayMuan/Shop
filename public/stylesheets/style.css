@@ -1,0 +1,47 @@
+body{
+  padding: 50px;
+  width: 30rem;
+  margin-left: auto;
+  margin-right: auto;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+.total{
+  text-align: center;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.container{
+  border: solid 1px black;
+  padding: 1rem;
+}
+
+.prodItem{
+  padding: 0.3rem;
+  border-bottom: solid 1px black;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  display: flex;
+}
+
+.prodName{
+  width: 35%;
+  text-align: center;
+}
+
+.prodPrice{
+  width: 30%;
+  text-align: center;
+}
+
+.ordNum{
+  width: 30%;
+  text-align: center;
+}
+
+.btn{
+  width: 30%;
+}
