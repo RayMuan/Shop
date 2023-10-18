@@ -1,18 +1,16 @@
-var template = require('../../lib/template');
-var conn = require('../../lib/database');
-var url = require('url');
-var path = require('path');
-const { v4: uuidv4 } = require('uuid');
-const { json } = require('body-parser');
+const template = require('../../lib/template');
+const conn = require('../../DB/conf');
+const url = require('url');
+const path = require('path');
+const service = require('../../services/mainService');
 
 //메인 겸 상품리스트
-exports.main = function(req, res) {
-    // 접속 쿠키가 존재하지 않을 시 쿠키 생성, 임시 ordCode 부여
-    var userCookie=req.cookies.userCookie;
-    if(userCookie == null ){
-        var tempCode=uuidv4();
-        res.cookie('userCookie', {ordCode:tempCode},{maxAge: 60*60*24*30});
-    }
+exports.main = async function(req, res) {
+    // 쿠키 확인
+    let userCookie=req.cookies.userCookie;
+    ordCode = await service.ordCode_chk(userCookie);
+    res.cookie('userCookie', {ordCode:ordCode},{maxAge: 60*60*24*30});
+
      // 상품 리스트
     conn.query(`SELECT * FROM product`, function(err, result){
         console.log(result);
